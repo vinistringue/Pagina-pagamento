@@ -1,3 +1,4 @@
+// Aguardar o carregamento do DOM antes de manipular elementos
 document.addEventListener("DOMContentLoaded", function () {
     // Selecionar elementos
     const valorInput = document.getElementById("valor");
@@ -38,7 +39,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para validar o número do cartão e exibir a bandeira
     function validarCartao() {
-        // Restante do código de validação do cartão aqui
+        var numero = document.getElementById('numero').value;
+        var bandeira = document.getElementById('bandeira');
+
+        // Verificar a inicial da numeração do cartão
+        if (numero.startsWith('1234')) {
+            bandeira.innerHTML = '<img src="mastercard.png" alt="Mastercard">';
+        } else if (numero.startsWith('4321')) {
+            bandeira.innerHTML = '<img src="visa.png" alt="">';
+        } else {
+            bandeira.innerHTML = ''; // Limpar a bandeira se não corresponder a nenhum padrão
+        }
+        
+        // Verificar se os campos necessários estão preenchidos
+        const numeroCartao = document.getElementById("numero").value;
+        const titularCartao = document.getElementById("titular").value;
+        const cvvCartao = document.getElementById("cvv").value;
+        const vencimentoCartao = document.getElementById("vencimento").value;
+
+        if (!numeroCartao || !titularCartao || !cvvCartao || !vencimentoCartao) {
+            cartaoMensagem.textContent = 'Preencha todos os campos do cartão.';
+            pagarButton.classList.add("hidden");
+        } else {
+            cartaoMensagem.textContent = '';
+            pagarButton.classList.remove("hidden");
+        }
     }
 
     // Função para validar o CPF
@@ -56,6 +81,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para realizar o pagamento (exibir mensagem de sucesso)
     function realizarPagamento() {
-        alert("Pagamento realizado com sucesso!");
+        // Verificar se os campos do cartão estão preenchidos
+        const numeroCartao = document.getElementById("numero").value;
+        const titularCartao = document.getElementById("titular").value;
+        const cvvCartao = document.getElementById("cvv").value;
+        const vencimentoCartao = document.getElementById("vencimento").value;
+
+        if (!numeroCartao || !titularCartao || !cvvCartao || !vencimentoCartao) {
+            alert("Preencha todos os campos do cartão antes de prosseguir com o pagamento.");
+        } else {
+            alert("Pagamento realizado com sucesso!");
+        }
     }
 });
